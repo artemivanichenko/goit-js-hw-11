@@ -7,20 +7,20 @@ export const gallaryMarkup = ({
   comments,
   downloads,
 }) => {
-  return `<a href="${largeImageURL}" class="">
+  return `<a href="${largeImageURL}" class="container">
       <div class="photo-card">
-    <img src="${webformatURL}" alt="${tags}" loading="lazy" />
-    <div class="info">
-      <p class="info-item">
+    <img class="card-img" src="${webformatURL}" alt="${tags}" loading="lazy" />
+    <div class="card-info">
+      <p class="card-item">
         <b>Likes</b>${likes}
       </p>
-      <p class="info-item">
+      <p class="card-item">
         <b>Views</b>${views}
       </p>
-      <p class="info-item">
+      <p class="card-item">
         <b>Comments</b>${comments}
       </p>
-      <p class="info-item">
+      <p class="card-item">
         <b>Downloads</b>${downloads}
       </p>
     </div>
