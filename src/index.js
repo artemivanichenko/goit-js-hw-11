@@ -23,7 +23,8 @@ async function handleSearchImage(ev) {
   ev.preventDefault();
   gallaryForm.innerHTML = '';
   inputName = ev.target.searchQuery.value.trim();
-  if (!inputForm) {
+  console.log(inputName);
+  if (!inputForm | (inputName === '')) {
     return;
   }
   const updateImage = await getImages(inputName, page);
@@ -31,6 +32,8 @@ async function handleSearchImage(ev) {
     Notify.failure(
       'Sorry, there are no images matching your search query. Please try again'
     );
+    btnLoadMore.style.display = 'none';
+    return;
   }
   Notify.info(`Hooray! We found ${updateImage.data.totalHits} images.`);
   creatGallery(updateImage.data.hits);
@@ -41,7 +44,6 @@ function creatGallery(updateImage) {
     .map(item => gallaryMarkup(item))
     .join('');
   gallaryForm.insertAdjacentHTML('beforeend', createImageCards);
-
   lightbox.refresh();
   btnLoadMore.style.display = 'block';
 }
@@ -51,7 +53,7 @@ async function handleLoadMore() {
   const loadMoreImageCards = await getImages(inputName, page);
   creatGallery(loadMoreImageCards.data.hits);
   const maxLoadMore = Math.ceil(loadMoreImageCards.data.totalHits / per_page);
-  if (maxLoadMore === page) {
+  if (maxLoadMore <= page) {
     btnLoadMore.style.display = 'none';
     Notify.failure(
       "We're sorry, but you've reached the end of search results."
